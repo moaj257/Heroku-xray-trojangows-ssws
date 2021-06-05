@@ -1,59 +1,59 @@
-### 提示：UUID建议使用UUID生成器，谷歌一下：UUID生成。。。。如果无法连通，八成是UUID不符合规定！！
+### Tip: UUID recommends using UUID generator, Google it: UUID generation. . . . If you cannot connect, 80% of the UUID does not meet the requirements! !
 
-### 提醒： 滥用可能导致账户被删除！！！ 
+### Reminder: Misuse may cause the account to be deleted! ! !
 
-### 以下内容是根据原作者项目说明进行相应修改，方便初学者小白们理解！
+### The following content is modified according to the original author's project description, so that beginners can understand it easily!
 
-### 详细视频教程YouTube：https://youtu.be/dE730hVgmUs
+### Detailed video tutorial YouTube: https://youtu.be/dE730hVgmUs
    
-* 原作者的Heroku脚本为多协议共存脚本，该项目使用[xray](https://github.com/XTLS/Xray-core)+caddy，同时部署通过ws传输模式的vmess vless trojan-go shadowsocks socks等协议，默认已配置好伪装网站。  
+* The original author's Heroku script is a multi-protocol coexistence script. This project uses [xray](https://github.com/XTLS/Xray-core)+caddy, and deploys vmess vless trojan-go shadowsocks socks via ws transmission mode at the same time For other protocols, the camouflage website has been configured by default.
 
-## 服务端创建操作流程 
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://dashboard.heroku.com/new?template=https://github.com/YG-tsj/Heroku-xray-trojangows-ssws)  
-点击上面紫色`Deploy to Heroku`，会跳转到heroku app创建页面，填上应用程序名、选择节点（美国或者欧洲）、自定义UUID码，其他建议保持默认，点击下面deploy，几秒后搞定！    
+## Server creation operation process
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://dashboard.heroku.com/new?template=https://github.com/YG-tsj/ Heroku-xray-trojangows-ssws)
+Click the purple `Deploy to Heroku` above, it will jump to the heroku app creation page, fill in the application name, select the node (US or Europe), custom UUID code, other suggestions keep the default, click below deploy, and it will be done in a few seconds !
 
-## vmess vless trojan-go shadowsocks对应客户端参数的参考如下,末尾带()里的内容仅为提示
+## vmess vless trojan-go shadowsocks corresponds to the client parameters of the reference as follows, the content with () at the end is only a reminder
 
-## 1：Xray
+## 1: Xray
 
-### 代理协议：vless+ws+tls 或 vmess+ws+tls
-* 服务器地址：自选ip（如：icook.tw）
-* 端口：443
-* 默认UUID：8f91b6a0-e8ee-11ea-adc1-0242ac120002   (务必创建时自定义UUID码)
-* 加密：none
-* 传输协议：ws
-* 伪装类型：none
-* 伪装host：****.workers.dev(CF Workers反代地址)
-* SNI地址：****.workers.dev(CF Workers反代地址)
-* path路径：/自定义UUID码-vless 或 /自定义UUID码-vmess    (注意：前有斜杠/)
-* vmess额外id（alterid）：0
-* 底层传输安全：tls
-* 跳过证书验证：false
+### Proxy agreement: vless+ws+tls or vmess+ws+tls
+* Server address: optional ip (eg: icook.tw)
+* Port: 443
+* Default UUID: 8f91b6a0-e8ee-11ea-adc1-0242ac120002 (must customize the UUID code when creating)
+* Encryption: none
+* Transmission protocol: ws
+* Camouflage type: none
+* Disguise host: ****.workers.dev (CF Workers anti-generation address)
+* SNI address: ****.workers.dev (CF Workers anti-generation address)
+* path: /custom UUID code-vless or /custom UUID code-vmess (note: there is a slash / before it)
+* vmess additional id (alterid): 0
+* Underlying transmission security: tls
+* Skip certificate verification: false
 
-## 2：Trojan-Go+ws
+## 2: Trojan-Go+ws
 
-* 服务器地址：自选ip（如：icook.tw）
-* 端口：443
-* 密码：8f91b6a0-e8ee-11ea-adc1-0242ac120002   (务必创建时自定义UUID码) 
-* 传输协议：ws
-* path路径：/自定义UUID码-trojan  (注意：前有斜杠/)
-* SNI地址：****.workers.dev(CF Workers反代地址)
-* 伪装host：****.workers.dev(CF Workers反代地址)
+* Server address: optional ip (eg: icook.tw)
+* Port: 443
+* Password: 8f91b6a0-e8ee-11ea-adc1-0242ac120002 (must customize the UUID code when creating)
+* Transmission protocol: ws
+* Path: /Custom UUID code -trojan (note: there is a slash /)
+* SNI address: ****.workers.dev (CF Workers anti-generation address)
+* Disguise host: ****.workers.dev (CF Workers anti-generation address)
 
-## 3：Shadowsocks+ws+tls
+## 3: Shadowsocks+ws+tls
 
-* 服务器地址: 应用程序名.herokuapp.com
-* 端口: 443
-* 密码：8f91b6a0-e8ee-11ea-adc1-0242ac120002   (务必创建时自定义UUID码) 
-* 加密：chacha20-ietf-poly1305
-* 插件选项: tls;host=应用程序名.herokuapp.com;path=/自定义UUID码-ss
+* Server address: application name.herokuapp.com
+* Port: 443
+* Password: 8f91b6a0-e8ee-11ea-adc1-0242ac120002 (must customize the UUID code when creating)
+* Encryption: chacha20-ietf-poly1305
+* Plug-in options: tls;host=application name.herokuapp.com;path=/custom UUID code-ss
 
 
-### CloudFlare Workers反代代码（支持VLESS\VMESS\Trojan-Go的WS模式，可分别用两个账号的应用程序名（UUID与path保持一致），单双号天分别执行，那一个月就有550+550小时）
+### CloudFlare Workers anti-generation code (supports WS mode of VLESS\VMESS\Trojan-Go, can use the application names of two accounts (UUID and path are the same), and execute separately on the single and double number days. 550+550 hours)
 
 ```
-const SingleDay = '应用程序名1.herokuapp.com'
-const DoubleDay = '应用程序名2.herokuapp.com'
+const SingleDay ='application name 1.herokuapp.com'
+const DoubleDay ='application name 2.herokuapp.com'
 addEventListener(
     "fetch",event => {
     
@@ -73,4 +73,4 @@ addEventListener(
     }
 )
 ```
-### 原作者项目地址：https://github.com/mixool/xrayku
+### Original author project address: https://github.com/mixool/xrayku
